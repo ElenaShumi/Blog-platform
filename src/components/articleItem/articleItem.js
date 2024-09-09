@@ -1,24 +1,39 @@
+import { format } from 'date-fns'
+import { HeartOutlined } from '@ant-design/icons'
 import './articleItem.scss'
 
-import imageAvatar from './Rectangle 1.png'
+export default function ArticleItem({ article }) {
+  const truncateOverview = (str = 0, num) => {
+    return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
+  }
 
-export default function ArticleItem() {
+  const tags = article.tagList.map((tag, index) => {
+    if (tag === null) return null
+    if (index < 7) {
+      return (
+        <li key={index} className="article-item__tag">
+          {truncateOverview(tag, article.tagList.length < 5 ? 20 : 7)}
+        </li>
+      )
+    }
+  })
+
   return (
     <li className="article-item">
-      <h3 className="article-item__title">Some article title</h3>
-      <div className="article-item__likes">
-        <div className="article-item__heart">♡</div>
-        <div>12</div>
+      <div className="article-item__group-1">
+        <h3 className="article-item__title">{truncateOverview(article.title, 40)}</h3>
+        <div className="article-item__likes">
+          <HeartOutlined className="article-item__likes-icon" />
+          <div>{article.favoritesCount}</div>
+        </div>
       </div>
-      <code className="article-item__tag">Tag1</code>
-      <p className="article-item__description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
-      </p>
-      <h3 className="article-item__name">John Doe</h3>
-      <p className="article-item__date">March 5, 2020</p>
-      <img className="article-item__avatar" src={imageAvatar} alt="avatar" />
+      <ul className="article-item__tags-list">{tags}</ul>
+      <p className="article-item__description">{truncateOverview(article.description, 120)}</p>
+      <div className="article-item__group-2">
+        <h3 className="article-item__name">{article.author.username}</h3>
+        <p className="article-item__date">{format(article.createdAt, 'MMMM d, yyyy')}</p>
+      </div>
+      <img className="article-item__avatar" src={article.author.image} alt="avatar" />
     </li>
   )
 }

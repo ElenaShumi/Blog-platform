@@ -1,9 +1,9 @@
 .article-item {
     display: grid;
-    grid-template-columns: 160px 34px 475px 140px 46px;
-    grid-template-areas: "title likes likes name-user avatar"
-                         "tag tag tag date avatar"
-                         "description description description date avatar";
+    grid-template-columns: 682px 150px 46px;
+    grid-template-areas: "group-1 group-2 avatar"
+                         "tag-list group-2 avatar"
+                         "description group-2 avatar";
     column-gap: 13px;
     row-gap: 4px;
     
@@ -19,36 +19,53 @@
     line-height: 22px;
     color: #000000BF;
 
+    &__group-1 {
+        grid-area: group-1;
+        display: flex;
+        gap: 13px;
+    }
+
+    &__group-2 {
+        grid-area: group-2;
+        justify-self: end;
+    }
+
     &__title {
         font-family: 'Inter UI', sans-serif;
         font-size: 20px;
         line-height: 28px;
         font-weight: normal;
         color: #1890FF;
-
-        grid-area: title;
+        overflow: hidden;
     }
 
     &__likes {
-        grid-area: likes;
         display: flex;
-        align-self: center;
-    }
+        gap: 5px;
+        padding-top: 2px;
 
-    &__heart {
-        width: 16px;
-        line-height: 16px;
-        font-size: 25px;
-        margin-right: 3px;
+        &-icon {
+            font-size: 16px;
+            padding-top: 4px;
+            align-self: flex-start;
+        }
     }
 
     &__description {
         grid-area: description;
+        overflow: hidden;
+    }
+
+    &__tags-list {
+        list-style: none;
+        display: flex;
+        gap: 8px;
+        padding: 0;
     }
 
     &__name {
         grid-area: name-user;
-        justify-self: end;
+        text-align: end;
         font-size: 18px;
         line-height: 28px;
         font-weight: normal;
@@ -56,7 +73,7 @@
 
     &__date {
         grid-area: date;
-        justify-self: end;
+        text-align: end;
 
         color: #00000080;
     }
@@ -64,15 +81,19 @@
     &__tag {
         line-height: 14.52px;
         color: #00000080;
+        white-space: nowrap;
 
         border-radius: 2px;
         border: 1px solid #00000080;
-        width: 26px;
-        //width
+        padding: 4px;
+        height: 15px;
     }
 
     &__avatar {
         grid-area: avatar;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
     }
 
     &__name,
