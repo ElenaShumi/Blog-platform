@@ -1,0 +1,31 @@
+.header {
+    height: 48px;
+    width: 98%;
+    padding: 16px 22px;
+
+    display: flex;
+
+    font-size: 18px;
+    line-height: 28px;
+    text-align: left;
+
+    .logo {
+        flex-grow: 1;
+        margin: auto 0;
+        // vertical-align: center;
+    }
+
+    .header_btn {
+        font-size: 18px;
+        font-family: 'Inter UI', sans-serif;
+        line-height: 28px;
+        height: 51px;
+        width: 109px;
+
+        &-register {
+            color: #52C41A;
+            border-color: #52C41A;
+        }
+    }
+}
+

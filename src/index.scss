@@ -1,0 +1,32 @@
+@import-normalize;
+
+@font-face {
+  font-family: "Inter UI";
+  src: local("fonts/Inter-UI-Regular"), url("fonts/Inter-UI-Regular.otf") format("OpenType");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Inter UI";
+  src: local("fonts/Inter-UI-Bold"), url("fonts/Inter-UI-Bold.otf") format("OpenType");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Inter UI";
+  src: local("fonts/Inter-UI-Italic"), url("fonts/Inter-UI-Italic.otf") format("OpenType");
+  font-style: italic;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter UI', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

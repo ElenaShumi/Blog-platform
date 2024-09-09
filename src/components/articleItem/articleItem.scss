@@ -1,0 +1,85 @@
+.article-item {
+    display: grid;
+    grid-template-columns: 160px 34px 475px 140px 46px;
+    grid-template-areas: "title likes likes name-user avatar"
+                         "tag tag tag date avatar"
+                         "description description description date avatar";
+    column-gap: 13px;
+    row-gap: 4px;
+    
+    width: 908px;
+    height: 101px;
+    padding: 15px 14px 24px 16px;
+    margin-top: 26px;
+
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 12px 0px #00000026;
+
+    font-size: 12px;
+    line-height: 22px;
+    color: #000000BF;
+
+    &__title {
+        font-family: 'Inter UI', sans-serif;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: normal;
+        color: #1890FF;
+
+        grid-area: title;
+    }
+
+    &__likes {
+        grid-area: likes;
+        display: flex;
+        align-self: center;
+    }
+
+    &__heart {
+        width: 16px;
+        line-height: 16px;
+        font-size: 25px;
+        margin-right: 3px;
+    }
+
+    &__description {
+        grid-area: description;
+    }
+
+    &__name {
+        grid-area: name-user;
+        justify-self: end;
+        font-size: 18px;
+        line-height: 28px;
+        font-weight: normal;
+    }
+
+    &__date {
+        grid-area: date;
+        justify-self: end;
+
+        color: #00000080;
+    }
+
+    &__tag {
+        line-height: 14.52px;
+        color: #00000080;
+
+        border-radius: 2px;
+        border: 1px solid #00000080;
+        width: 26px;
+        //width
+    }
+
+    &__avatar {
+        grid-area: avatar;
+    }
+
+    &__name,
+    &__date,
+    &__title,
+    &__likes,
+    &__description {
+        margin: 0;
+    }
+}
