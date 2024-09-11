@@ -1,0 +1,122 @@
+.page {
+    background-color: #EBEEF3;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 26px;
+
+    .article-item {
+        display: grid;
+        grid-template-columns: 682px 150px 46px;
+        grid-template-areas: "group-1 group-2 avatar"
+                            "tag-list group-2 avatar"
+                            "description group-2 avatar";
+                            // "body body body";
+        column-gap: 13px;
+        row-gap: 4px;
+
+        width: 908px;
+        height: 764px;
+        padding: 15px 14px 24px 16px;
+        margin: 0 auto;
+
+        border: 2px solid #FFFFFF;
+        background-color: #FFFFFF;
+        box-shadow: 0px 4px 12px 0px #00000026;
+
+        font-size: 12px;
+        line-height: 22px;
+        color: #000000BF;
+
+        &__group-1 {
+            grid-area: group-1;
+            display: flex;
+            gap: 13px;
+        }
+    
+        &__group-2 {
+            grid-area: group-2;
+            justify-self: end;
+        }
+    
+        &__title {
+            font-family: 'Inter UI', sans-serif;
+            font-size: 20px;
+            line-height: 28px;
+            font-weight: normal;
+            color: #1890FF;
+            overflow: hidden;
+        }
+    
+        &__likes {
+            display: flex;
+            gap: 5px;
+            padding-top: 2px;
+    
+            &-icon {
+                font-size: 16px;
+                padding-top: 4px;
+                align-self: flex-start;
+            }
+        }
+    
+        &__description {
+            grid-area: description;
+            overflow: hidden;
+
+            color: #00000080;
+        }
+    
+        &__tags-list {
+            list-style: none;
+            display: flex;
+            gap: 8px;
+            padding: 0;
+        }
+    
+        &__name {
+            grid-area: name-user;
+            text-align: end;
+            font-size: 18px;
+            line-height: 28px;
+            font-weight: normal;
+        }
+    
+        &__date {
+            grid-area: date;
+            text-align: end;
+    
+            color: #00000080;
+        }
+    
+        &__tag {
+            line-height: 14.52px;
+            color: #00000080;
+            white-space: nowrap;
+    
+            border-radius: 2px;
+            border: 1px solid #00000080;
+            padding: 4px;
+            height: 15px;
+        }
+    
+        &__avatar {
+            grid-area: avatar;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+        }
+
+        // &__body {
+        //     grid-area: body;
+        // }
+    
+        &__name,
+        &__date,
+        &__title,
+        &__likes,
+        &__description,
+        &__body {
+            margin: 0;
+        }
+    }
+}

@@ -4,11 +4,14 @@ const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
 })
 
+const url = 'https://blog.kata.academy/api/articles'
+
 const articlesSlice = createSlice({
   name: 'articles',
 
   initialState: {
     articles: [],
+    singleArticle: {},
     articlesCount: null,
     status: null,
     error: null,
@@ -22,7 +25,7 @@ const articlesSlice = createSlice({
     fetchArticles: create.asyncThunk(
       async function (count = 0, { rejectWithValue }) {
         try {
-          const response = await fetch(`https://blog.kata.academy/api/articles?limit=5&offset=${count}`)
+          const response = await fetch(`${url}?limit=5&offset=${count}`)
 
           if (!response.ok) {
             throw new Error('Server Error!')
@@ -51,17 +54,51 @@ const articlesSlice = createSlice({
         },
       }
     ),
+
+    fetchSingleArticle: create.asyncThunk(
+      async function (slug, { rejectWithValue }) {
+        try {
+          const response = await fetch(`${url}/${slug}`)
+
+          if (!response.ok) {
+            throw new Error('Server Error!')
+          }
+
+          const data = await response.json()
+
+          return data
+        } catch (error) {
+          return rejectWithValue(error.message)
+        }
+      },
+      {
+        pending: (state) => {
+          state.status = 'loading'
+          state.error = null
+        },
+        fulfilled: (state, action) => {
+          state.status = 'resolved'
+          state.singleArticle = action.payload.article
+        },
+        rejected: (state, action) => {
+          state.status = 'rejected'
+          state.error = action.payload
+        },
+      }
+    ),
   }),
 
   selectors: {
     selectorArticles: (state) => state.articles,
+    selectorSingleArticle: (state) => state.singleArticle,
     selectorStatus: (state) => state.status,
     selectorArticlesCount: (state) => state.articlesCount,
   },
 })
 
-export const { stopLoading, fetchArticles } = articlesSlice.actions
+export const { stopLoading, fetchArticles, fetchSingleArticle } = articlesSlice.actions
 
-export const { selectorArticles, selectorStatus, selectorArticlesCount } = articlesSlice.selectors
-
+export const { selectorArticles, selectorStatus, selectorArticlesCount, selectorSingleArticle } =
+  articlesSlice.selectors
+console.log(articlesSlice.initialState)
 export default articlesSlice.reducer

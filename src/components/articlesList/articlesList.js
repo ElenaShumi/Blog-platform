@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Pagination, Spin, Result } from 'antd'
+import { Link } from 'react-router-dom'
 
 import ArticleItem from '../articleItem'
 import { fetchArticles, selectorArticles, selectorArticlesCount, selectorStatus } from '../../store/articlesSlice'
@@ -21,7 +22,11 @@ export default function ArticlesList() {
   }, [dispatch])
 
   let elements = articlesList.map((article) => {
-    return <ArticleItem key={article.slug} article={article} />
+    return (
+      <Link key={article.slug} to={`/articles/${article.slug}`}>
+        <ArticleItem article={article} />
+      </Link>
+    )
   })
 
   const onChangePages = (page) => {

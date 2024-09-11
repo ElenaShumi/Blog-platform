@@ -1,3 +1,4 @@
+// import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import { HeartOutlined } from '@ant-design/icons'
 import './articleItem.scss'
@@ -6,6 +7,7 @@ export default function ArticleItem({ article }) {
   const truncateOverview = (str = 0, num) => {
     return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
   }
+  // console.log(article)
 
   const tags = article.tagList.map((tag, index) => {
     if (tag === null) return null
