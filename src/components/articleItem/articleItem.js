@@ -15,10 +15,7 @@ export default function ArticleItem() {
 
   useEffect(() => {
     dispatch(fetchSingleArticle(slug))
-    console.log(article)
   }, [slug])
-
-  // console.log(article.title)
 
   return (
     <div className="main">
@@ -35,5 +32,3 @@ export default function ArticleItem() {
     </div>
   )
 }
-
-// markdown-primer-7ultpo

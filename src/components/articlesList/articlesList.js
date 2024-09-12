@@ -17,8 +17,6 @@ export default function ArticlesList() {
 
   useEffect(() => {
     dispatch(fetchArticles())
-
-    // if (articlesList.length === 0) console.log(articlesList)
   }, [dispatch])
 
   let elements = articlesList.map((article) => {

@@ -7,8 +7,6 @@ import ArticleItem from '../articleItem'
 function App() {
   return (
     <>
-      {/* <Header /> */}
-      {/* <Main /> */}
       <Routes>
         <Route path="/" element={<Header />}>
           <Route index element={<Main />} />

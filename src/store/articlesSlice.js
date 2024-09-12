@@ -1,10 +1,10 @@
 import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit'
 
+import BlogService from '../service/blogService'
+
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
 })
-
-const url = 'https://blog.kata.academy/api/articles'
 
 const articlesSlice = createSlice({
   name: 'articles',
@@ -25,15 +25,7 @@ const articlesSlice = createSlice({
     fetchArticles: create.asyncThunk(
       async function (count = 0, { rejectWithValue }) {
         try {
-          const response = await fetch(`${url}?limit=5&offset=${count}`)
-
-          if (!response.ok) {
-            throw new Error('Server Error!')
-          }
-
-          const data = await response.json()
-
-          return data
+          return BlogService.getArticles(count)
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -58,15 +50,7 @@ const articlesSlice = createSlice({
     fetchSingleArticle: create.asyncThunk(
       async function (slug, { rejectWithValue }) {
         try {
-          const response = await fetch(`${url}/${slug}`)
-
-          if (!response.ok) {
-            throw new Error('Server Error!')
-          }
-
-          const data = await response.json()
-
-          return data
+          return BlogService.getSingleArticle(slug)
         } catch (error) {
           return rejectWithValue(error.message)
         }
