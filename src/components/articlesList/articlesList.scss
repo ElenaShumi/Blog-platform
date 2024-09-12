@@ -9,3 +9,21 @@
     //     margin-top: 10%;
     // }
 }
+
+.article-item--min {
+    grid-template-areas: "group-1 group-2 avatar"
+                         "tag-list group-2 avatar"
+                         "description group-2 avatar";
+    height: 97px;
+    width: 908px;
+    margin-top: 26px;
+    padding: 15px 14px 24px 16px;
+
+    border: 2px solid #FFFFFF;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 12px 0px #00000026;
+
+    font-size: 12px;
+    line-height: 22px;
+    color: #000000BF;
+}

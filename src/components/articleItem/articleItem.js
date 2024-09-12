@@ -1,41 +1,39 @@
-// import { Link } from 'react-router-dom'
-import { format } from 'date-fns'
-import { HeartOutlined } from '@ant-design/icons'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import './articleItem.scss'
 
-export default function ArticleItem({ article }) {
-  const truncateOverview = (str = 0, num) => {
-    return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
-  }
-  // console.log(article)
+import SingleArticle from '../singleArticle'
+import { fetchSingleArticle, selectorSingleArticle } from '../../store/articlesSlice'
 
-  const tags = article.tagList.map((tag, index) => {
-    if (tag === null) return null
-    if (index < 7) {
-      return (
-        <li key={index} className="article-item__tag">
-          {truncateOverview(tag, article.tagList.length < 5 ? 20 : 7)}
-        </li>
-      )
-    }
-  })
+export default function ArticleItem() {
+  const { slug } = useParams()
+  const dispatch = useDispatch()
+  const article = useSelector(selectorSingleArticle)
+
+  useEffect(() => {
+    dispatch(fetchSingleArticle(slug))
+    console.log(article)
+  }, [slug])
+
+  // console.log(article.title)
 
   return (
-    <li className="article-item">
-      <div className="article-item__group-1">
-        <h3 className="article-item__title">{truncateOverview(article.title, 40)}</h3>
-        <div className="article-item__likes">
-          <HeartOutlined className="article-item__likes-icon" />
-          <div>{article.favoritesCount}</div>
+    <div className="main">
+      {article && (
+        <div className="item--flex">
+          <div className="article-item article-item--max">
+            <SingleArticle article={article} singleArticle={true} />
+          </div>
+          <Markdown remarkPlugins={[remarkGfm]} className="article-item__body">
+            {article.body}
+          </Markdown>
         </div>
-      </div>
-      <ul className="article-item__tags-list">{tags}</ul>
-      <p className="article-item__description">{truncateOverview(article.description, 120)}</p>
-      <div className="article-item__group-2">
-        <h3 className="article-item__name">{article.author.username}</h3>
-        <p className="article-item__date">{format(article.createdAt, 'MMMM d, yyyy')}</p>
-      </div>
-      <img className="article-item__avatar" src={article.author.image} alt="avatar" />
-    </li>
+      )}
+    </div>
   )
 }
+
+// markdown-primer-7ultpo

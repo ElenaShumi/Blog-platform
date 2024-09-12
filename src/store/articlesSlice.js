@@ -11,7 +11,7 @@ const articlesSlice = createSlice({
 
   initialState: {
     articles: [],
-    singleArticle: {},
+    singleArticle: null,
     articlesCount: null,
     status: null,
     error: null,
@@ -100,5 +100,4 @@ export const { stopLoading, fetchArticles, fetchSingleArticle } = articlesSlice.
 
 export const { selectorArticles, selectorStatus, selectorArticlesCount, selectorSingleArticle } =
   articlesSlice.selectors
-console.log(articlesSlice.initialState)
 export default articlesSlice.reducer

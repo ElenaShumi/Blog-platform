@@ -1,16 +1,23 @@
-.article-item {
-    display: grid;
-    grid-template-columns: 682px 150px 46px;
-    grid-template-areas: "group-1 group-2 avatar"
-                         "tag-list group-2 avatar"
-                         "description group-2 avatar";
-    column-gap: 13px;
-    row-gap: 4px;
+.article-item--max {
     
-    width: 908px;
-    height: 97px;
-    padding: 15px 14px 24px 16px;
+
+    .article-item__description {
+        color: #00000080;
+    }
+
+    &.article-item:hover {
+        border: none;
+    }
+}
+
+.item--flex {
+    display: flex;
+    flex-direction: column;
+
     margin-top: 26px;
+    width: 908px;
+    min-height: 768px;
+    padding: 15px 14px 24px 16px;
 
     border: 2px solid #FFFFFF;
     background-color: #FFFFFF;
@@ -19,95 +26,4 @@
     font-size: 12px;
     line-height: 22px;
     color: #000000BF;
-
-    transition-duration: 0.3s;
-
-    &:hover {
-        border: 2px solid #1890FF;
-    }
-
-    &__group-1 {
-        grid-area: group-1;
-        display: flex;
-        gap: 13px;
-    }
-
-    &__group-2 {
-        grid-area: group-2;
-        justify-self: end;
-    }
-
-    &__title {
-        font-family: 'Inter UI', sans-serif;
-        font-size: 20px;
-        line-height: 28px;
-        font-weight: normal;
-        color: #1890FF;
-        overflow: hidden;
-    }
-
-    &__likes {
-        display: flex;
-        gap: 5px;
-        padding-top: 2px;
-
-        &-icon {
-            font-size: 16px;
-            padding-top: 4px;
-            align-self: flex-start;
-        }
-    }
-
-    &__description {
-        grid-area: description;
-        overflow: hidden;
-    }
-
-    &__tags-list {
-        list-style: none;
-        display: flex;
-        gap: 8px;
-        padding: 0;
-    }
-
-    &__name {
-        grid-area: name-user;
-        text-align: end;
-        font-size: 18px;
-        line-height: 28px;
-        font-weight: normal;
-    }
-
-    &__date {
-        grid-area: date;
-        text-align: end;
-
-        color: #00000080;
-    }
-
-    &__tag {
-        line-height: 14.52px;
-        color: #00000080;
-        white-space: nowrap;
-
-        border-radius: 2px;
-        border: 1px solid #00000080;
-        padding: 4px;
-        height: 15px;
-    }
-
-    &__avatar {
-        grid-area: avatar;
-        width: 46px;
-        height: 46px;
-        border-radius: 50%;
-    }
-
-    &__name,
-    &__date,
-    &__title,
-    &__likes,
-    &__description {
-        margin: 0;
-    }
 }

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Pagination, Spin, Result } from 'antd'
 import { Link } from 'react-router-dom'
 
-import ArticleItem from '../articleItem'
+import SingleArticle from '../singleArticle'
 import { fetchArticles, selectorArticles, selectorArticlesCount, selectorStatus } from '../../store/articlesSlice'
 
 import './articlesList.scss'
@@ -24,7 +24,9 @@ export default function ArticlesList() {
   let elements = articlesList.map((article) => {
     return (
       <Link key={article.slug} to={`/articles/${article.slug}`}>
-        <ArticleItem article={article} />
+        <div className="article-item article-item--min">
+          <SingleArticle article={article} />
+        </div>
       </Link>
     )
   })
