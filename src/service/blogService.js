@@ -1,8 +1,8 @@
 export default class BlogService {
-  static _apiBase = 'https://blog.kata.academy/api/articles'
+  static _apiBase = 'https://blog.kata.academy/api'
 
-  static async getArticles(count) {
-    const response = await fetch(`${this._apiBase}?limit=5&offset=${count}`)
+  static async #fetchRequest(request) {
+    const response = await request
 
     if (!response.ok) {
       throw new Error('Server Error!')
@@ -13,15 +13,35 @@ export default class BlogService {
     return data
   }
 
-  static async getSingleArticle(slug) {
-    const response = await fetch(`${this._apiBase}/${slug}`)
+  static getArticles(count) {
+    this.#fetchRequest(fetch(`${this._apiBase}/articles?limit=5&offset=${count}`))
+  }
 
-    if (!response.ok) {
-      throw new Error('Server Error!')
-    }
+  static getSingleArticle(slug) {
+    this.#fetchRequest(fetch(`${this._apiBase}/articles/${slug}`))
+  }
 
-    const data = await response.json()
+  static postNewUser(user) {
+    this.#fetchRequest(
+      fetch(`${this._apiBase}/users`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user,
+        }),
+      })
+    )
+  }
 
-    return data
+  static postLoginUser(user) {
+    this.#fetchRequest(
+      fetch(`${this._apiBase}/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user,
+        }),
+      })
+    )
   }
 }
