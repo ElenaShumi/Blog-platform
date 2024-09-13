@@ -43,7 +43,6 @@ const authenticationSlice = createSlice({
     fetchLoginUser: create.asyncThunk(
       async function (user, { rejectWithValue }) {
         try {
-          console.log(user)
           return BlogService.postLoginUser(user)
         } catch (error) {
           return rejectWithValue(error.message)

@@ -16,7 +16,6 @@ const SignIn = () => {
       email: form.email.value,
       password: form.password.value,
     }
-    console.log(user)
     dispatch(fetchLoginUser(user))
   }
 
