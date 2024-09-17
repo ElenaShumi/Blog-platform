@@ -9,7 +9,7 @@ export default class BlogService {
     }
 
     const data = await response.json()
-    console.log(data)
+    // console.log(data)
     return data
   }
 
@@ -38,6 +38,13 @@ export default class BlogService {
       body: JSON.stringify({
         user,
       }),
+    })
+  }
+
+  static getCurrentUser(token) {
+    return this.#fetchRequest(`${this._apiBase}/user`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
     })
   }
 }

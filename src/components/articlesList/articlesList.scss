@@ -1,9 +1,12 @@
 .list-articles {
     list-style: none;
-    // margin: 26px auto;
     margin: 0;
     margin-bottom: 26px;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     // &__spinner {
     //     margin-top: 10%;
@@ -15,7 +18,6 @@
                          "tag-list group-2 avatar"
                          "description group-2 avatar";
     height: 97px;
-    width: 908px;
     margin-top: 26px;
     padding: 15px 14px 24px 16px;
 

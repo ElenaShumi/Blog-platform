@@ -1,12 +1,14 @@
 import { Checkbox, Button } from 'antd'
 import './signUp.scss'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { fetchRegisterUser } from '../../store/authenticationSlice'
 
 const SignUp = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const form = event.target
@@ -16,9 +18,9 @@ const SignUp = () => {
       email: form.email.value,
       password: form.password[0].value,
     }
-    console.log(user)
+
     dispatch(fetchRegisterUser(user))
-    // console.log(name)
+    navigate('/articles')
   }
 
   return (

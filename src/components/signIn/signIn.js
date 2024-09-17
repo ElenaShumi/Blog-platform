@@ -1,12 +1,13 @@
 import { Button } from 'antd'
 import './signIn.scss'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { fetchLoginUser } from '../../store/authenticationSlice'
 
 const SignIn = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -16,7 +17,9 @@ const SignIn = () => {
       email: form.email.value,
       password: form.password.value,
     }
+
     dispatch(fetchLoginUser(user))
+    navigate('/articles')
   }
 
   return (

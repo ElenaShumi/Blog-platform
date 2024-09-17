@@ -1,6 +1,6 @@
 .article-item {
     display: grid;
-    grid-template-columns: 682px 150px 46px;
+    grid-template-columns: 15fr 3fr 1fr;
     grid-template-areas: "group-1 group-2 avatar"
                          "tag-list group-2 avatar"
                          "description group-2 avatar";
@@ -53,6 +53,7 @@
     &__tags-list {
         list-style: none;
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
         padding: 0;
     }

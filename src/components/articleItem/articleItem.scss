@@ -13,7 +13,8 @@
     flex-direction: column;
 
     margin-top: 26px;
-    width: 908px;
+    // width: 908px;
+    width: 100%;
     min-height: 768px;
     padding: 15px 14px 24px 16px;
 
@@ -24,5 +25,13 @@
     font-size: 12px;
     line-height: 22px;
     color: #000000BF;
-    word-break: break-all;
+    // word-break: break-all;
+}
+
+.article-item__body img {
+    max-width: 100%;
+}
+
+.article-item__body code {
+    white-space: break-spaces;
 }

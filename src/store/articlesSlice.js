@@ -37,7 +37,7 @@ const articlesSlice = createSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'resolved'
-          console.log(action.payload)
+          // console.log(action.payload)
           state.articles = action.payload.articles
           state.articlesCount = action.payload.articlesCount
         },
