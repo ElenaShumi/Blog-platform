@@ -9,7 +9,8 @@ const createSlice = buildCreateSlice({
 const getInfoUser = (state, action) => {
   const { token, username, email, image } = action.payload.user
   localStorage.setItem('token', token)
-
+  // console.log('Update')
+  // console.log(username)
   state.token = token
   state.username = username
   state.email = email
@@ -76,6 +77,19 @@ const authenticationSlice = createSlice({
         fulfilled: (state, action) => getInfoUser(state, action),
       }
     ),
+
+    fetchUpdateUser: create.asyncThunk(
+      async function (user, { rejectWithValue }) {
+        try {
+          return BlogService.updateCurrentUser(user)
+        } catch (error) {
+          return rejectWithValue(error.message)
+        }
+      },
+      {
+        fulfilled: (state, action) => getInfoUser(state, action),
+      }
+    ),
   }),
 
   selectors: {
@@ -83,10 +97,12 @@ const authenticationSlice = createSlice({
     selectorUsername: (state) => state.username,
     selectorEmail: (state) => state.email,
     selectorImage: (state) => state.image,
+    selectorPassword: (state) => state.password,
   },
 })
 
-export const { fetchRegisterUser, fetchLoginUser, logOutUser, fetchCurrentUser } = authenticationSlice.actions
+export const { fetchRegisterUser, fetchLoginUser, logOutUser, fetchCurrentUser, fetchUpdateUser } =
+  authenticationSlice.actions
 
 export const { selectorToken, selectorUsername, selectorEmail, selectorImage } = authenticationSlice.selectors
 

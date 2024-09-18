@@ -5,7 +5,6 @@
     color: #262626;
 
     width: 318px;
-    height: 501px;
     padding: 48px 32px;
     margin-top: 59px;
 
@@ -27,6 +26,10 @@
         line-height: 28px;
         margin: 0;
         margin-bottom: 21px;
+    }
+
+    &.sign-up__container {
+        min-height: 501px;
     }
 }
 
@@ -52,9 +55,9 @@
             color: #BFBFBF;
         }
 
-        // &:invalid {
-        //     border: 1px solid #F5222D;
-        // }
+        &.error {
+            border: 1px solid #F5222D;
+        }
     }
 
     &__checkbox {
@@ -79,6 +82,17 @@
         &>a {
             text-decoration: none;
             color: #1677ff;
+        }
+    }
+
+    &__error {
+        color: #F5222D;
+        font-size: 14px;
+
+        &>p {
+            margin: 0;
+            margin-top: -10px;
+            margin-bottom: 12px;
         }
     }
 }

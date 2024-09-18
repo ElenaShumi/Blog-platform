@@ -47,4 +47,14 @@ export default class BlogService {
       headers: { Authorization: `Bearer ${token}` },
     })
   }
+
+  static updateCurrentUser({ token, ...rest }) {
+    return this.#fetchRequest(`${this._apiBase}/user`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user: rest,
+      }),
+    })
+  }
 }

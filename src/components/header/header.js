@@ -47,11 +47,10 @@ export default function Header() {
             <Link to="">
               <Button className="header_btn header_btn--create">Create article</Button>
             </Link>
-            <Link to="">
+            <Link to="/profile">
               <div className="header_user user">
                 <p className="user_name">{nameUser}</p>
-                <Avatar size="large" icon={imageUser ? imageUser : <UserOutlined />} />
-                {/* <img src={imageUser} alt="avatar" /> */}
+                <Avatar size="large" icon={<UserOutlined />} src={imageUser} />
               </div>
             </Link>
             <Button

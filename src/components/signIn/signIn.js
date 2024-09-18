@@ -2,23 +2,21 @@ import { Button } from 'antd'
 import './signIn.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useForm } from 'react-hook-form'
 
 import { fetchLoginUser } from '../../store/authenticationSlice'
 
 const SignIn = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur' })
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const form = event.target
-
-    const user = {
-      email: form.email.value,
-      password: form.password.value,
-    }
-
-    dispatch(fetchLoginUser(user))
+  const onSubmit = ({ email, password }) => {
+    dispatch(fetchLoginUser({ email, password }))
     navigate('/articles')
   }
 
@@ -26,19 +24,38 @@ const SignIn = () => {
     <div className="main sign-in">
       <div className="sign-in__container container">
         <h2 className="container__title">Sign In</h2>
-        <form onSubmit={handleSubmit} className="container__form form">
+        <form onSubmit={handleSubmit(onSubmit)} className="container__form form">
           <label className="form__label">
             Email address
             <br />
-            <input className="form__input" type="email" name="email" required placeholder="Email address" />
+            <input
+              className={errors?.email ? 'form__input error' : 'form__input'}
+              type="email"
+              placeholder="Email address"
+              {...register('email', {
+                required: 'The field must be filled in',
+                pattern: {
+                  value:
+                    /^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/,
+                  message: 'Must be a valid mailing address',
+                },
+              })}
+            />
           </label>
           <br />
+          <div className="form__error">{errors?.email && <p>{errors?.email?.message}</p>}</div>
           <label className="form__label">
             Password
             <br />
-            <input className="form__input" type="password" required name="password" placeholder="Password" />
+            <input
+              className={errors?.password ? 'form__input error' : 'form__input'}
+              type="password"
+              placeholder="Password"
+              {...register('password', { required: 'The field must be filled in' })}
+            />
           </label>
           <br />
+          <div className="form__error">{errors?.password && <p>{errors?.password?.message}</p>}</div>
           <Button htmlType="submit" className="form__btn" size="large" type="primary">
             Create
           </Button>

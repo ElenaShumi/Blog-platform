@@ -5,6 +5,7 @@ import Main from '../main'
 import ArticleItem from '../articleItem'
 import SignUp from '../signUp'
 import SignIn from '../signIn'
+import Profile from '../profile'
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
           <Route index element={<Main />} />
           <Route path="articles" element={<Main />} />
           <Route path="articles/:slug" element={<ArticleItem />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="sign-up" element={<SignUp />} />
+          <Route path="sign-in" element={<SignIn />} />
+          <Route path="profile" element={<Profile />} />
           {/* <Route path="*" element={<NotFoundPage />} /> Создать этот компонент*/}
         </Route>
       </Routes>

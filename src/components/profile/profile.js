@@ -1,31 +1,46 @@
-import { Checkbox, Button } from 'antd'
-import './signUp.scss'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { Button } from 'antd'
+import './profile.scss'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
 
-import { fetchRegisterUser } from '../../store/authenticationSlice'
+import { fetchUpdateUser, selectorToken, selectorUsername, selectorEmail } from '../../store/authenticationSlice'
 
-const SignUp = () => {
+const Profile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const token = useSelector(selectorToken)
+  const userName = useSelector(selectorUsername)
+  const userEmail = useSelector(selectorEmail)
+
+  console.log(userName)
   const {
     register,
     handleSubmit,
-    watch,
-    control,
     formState: { errors },
-  } = useForm({ mode: 'onBlur' })
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      username: userName,
+      email: userEmail,
+    },
+  })
 
-  const onSubmit = ({ username, email, password }) => {
-    dispatch(fetchRegisterUser({ username, email, password }))
+  const onSubmit = (data) => {
+    const user = {}
+
+    for (let key in data) {
+      if (data[key]) user[key] = data[key]
+    }
+
+    dispatch(fetchUpdateUser({ token, ...user }))
     navigate('/articles')
   }
 
   return (
     <div className="main">
-      <div className="sign-up__container container">
-        <h2 className="container__title">Create new account</h2>
+      <div className="profile__container container">
+        <h2 className="container__title">Edit Profile</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="container__form form">
           <label className="form__label">
             Username
@@ -34,11 +49,7 @@ const SignUp = () => {
               className={errors?.username ? 'form__input error' : 'form__input'}
               type="text"
               placeholder="Username"
-              {...register('username', {
-                required: 'The field must be filled in',
-                minLength: { value: 3, message: 'Your password needs to be at least 3 characters' },
-                maxLength: { value: 20, message: 'Your password must contain less than 20 characters' },
-              })}
+              {...register('username', { required: 'The field must be filled in' })}
             />
           </label>
           <br />
@@ -63,14 +74,13 @@ const SignUp = () => {
           <br />
           <div className="form__error">{errors?.email && <p>{errors?.email?.message}</p>}</div>
           <label className="form__label">
-            Password
+            New password
             <br />
             <input
               className={errors?.password ? 'form__input error' : 'form__input'}
               type="password"
               placeholder="Password"
               {...register('password', {
-                required: 'The field must be filled in',
                 minLength: { value: 6, message: 'Your password needs to be at least 6 characters' },
                 maxLength: { value: 40, message: 'Your password must contain less than 40 characters' },
               })}
@@ -79,43 +89,29 @@ const SignUp = () => {
           <br />
           <div className="form__error">{errors?.password && <p>{errors?.password?.message}</p>}</div>
           <label className="form__label">
-            Repeat Password
+            Avatar image (url)
             <br />
             <input
-              className={errors?.repeatPassword ? 'form__input error' : 'form__input'}
-              type="password"
-              placeholder="Password"
-              {...register('repeatPassword', {
-                required: 'The field must be filled in',
-                validate: (data) => data === watch('password') || 'Passwords must match',
+              className={errors?.image ? 'form__input error' : 'form__input'}
+              type="url"
+              placeholder="Avatar image"
+              {...register('image', {
+                pattern: {
+                  value: /^(ftp|http|https):\/\/[^ "]+$/,
+                  message: 'The url must be correct',
+                },
               })}
             />
           </label>
           <br />
-          <div className="form__error">{errors?.repeatPassword && <p>{errors?.repeatPassword?.message}</p>}</div>
-          <Controller
-            control={control}
-            name="checkbox"
-            rules={{
-              required: true,
-            }}
-            render={({ field: { value = true, onChange } }) => (
-              <Checkbox className="form__checkbox" checked={value} onChange={(e) => onChange(e.target.checked)}>
-                I agree to the processing of my personal information
-              </Checkbox>
-            )}
-          />
-          <br />
+          <div className="form__error">{errors?.image && <p>{errors?.image?.message}</p>}</div>
           <Button htmlType="submit" className="form__btn" size="large" type="primary">
-            Create
+            Save
           </Button>
-          <p className="form__text">
-            Already have an account? <Link to="/sign-in">Sign In.</Link>
-          </p>
         </form>
       </div>
     </div>
   )
 }
 
-export default SignUp
+export default Profile
