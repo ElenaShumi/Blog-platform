@@ -37,7 +37,6 @@ const articlesSlice = createSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'resolved'
-          // console.log(action.payload)
           state.articles = action.payload.articles
           state.articlesCount = action.payload.articlesCount
         },
@@ -71,6 +70,54 @@ const articlesSlice = createSlice({
         },
       }
     ),
+
+    fetchCreateArticle: create.asyncThunk(
+      async function (info, { rejectWithValue }) {
+        try {
+          return BlogService.createAnArticle(info)
+        } catch (error) {
+          return rejectWithValue(error.message)
+        }
+      },
+      {
+        pending: (state) => {
+          state.status = 'loading'
+          state.error = null
+        },
+        fulfilled: (state, action) => {
+          state.status = 'resolved'
+          console.log(action.payload.article)
+        },
+        rejected: (state, action) => {
+          state.status = 'rejected'
+          state.error = action.payload
+        },
+      }
+    ),
+
+    fetchUpdateArticle: create.asyncThunk(
+      async function (info, { rejectWithValue }) {
+        try {
+          return BlogService.updateAnArticle(info)
+        } catch (error) {
+          return rejectWithValue(error.message)
+        }
+      },
+      {
+        pending: (state) => {
+          state.status = 'loading'
+          state.error = null
+        },
+        fulfilled: (state, action) => {
+          state.status = 'resolved'
+          console.log(action.payload.article)
+        },
+        rejected: (state, action) => {
+          state.status = 'rejected'
+          state.error = action.payload
+        },
+      }
+    ),
   }),
 
   selectors: {
@@ -81,7 +128,8 @@ const articlesSlice = createSlice({
   },
 })
 
-export const { stopLoading, fetchArticles, fetchSingleArticle } = articlesSlice.actions
+export const { stopLoading, fetchArticles, fetchSingleArticle, fetchCreateArticle, fetchUpdateArticle } =
+  articlesSlice.actions
 
 export const { selectorArticles, selectorStatus, selectorArticlesCount, selectorSingleArticle } =
   articlesSlice.selectors

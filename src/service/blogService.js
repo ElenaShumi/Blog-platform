@@ -57,4 +57,24 @@ export default class BlogService {
       }),
     })
   }
+
+  static createAnArticle({ token, ...rest }) {
+    return this.#fetchRequest(`${this._apiBase}/articles`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        article: rest,
+      }),
+    })
+  }
+
+  static updateAnArticle({ token, slug, ...rest }) {
+    return this.#fetchRequest(`${this._apiBase}/articles/${slug}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        article: rest,
+      }),
+    })
+  }
 }

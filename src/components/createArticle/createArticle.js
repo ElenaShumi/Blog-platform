@@ -4,14 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm, useFieldArray } from 'react-hook-form'
 
-import { fetchUpdateUser, selectorToken, selectorUsername, selectorEmail } from '../../store/authenticationSlice'
+import { selectorToken } from '../../store/authenticationSlice'
+import { fetchCreateArticle } from '../../store/articlesSlice'
 
 const CreateArticle = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const token = useSelector(selectorToken)
-  const userName = useSelector(selectorUsername)
-  const userEmail = useSelector(selectorEmail)
 
   const {
     register,
@@ -21,25 +20,15 @@ const CreateArticle = () => {
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
-    defaultValues: {
-      username: userName,
-      email: userEmail,
-    },
   })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'tags',
+    name: 'tagList',
   })
 
   const onSubmit = (data) => {
-    const user = {}
-
-    for (let key in data) {
-      if (data[key]) user[key] = data[key]
-    }
-
-    dispatch(fetchUpdateUser({ token, ...user }))
+    dispatch(fetchCreateArticle({ token, ...data }))
     navigate('/articles')
   }
 
@@ -47,10 +36,10 @@ const CreateArticle = () => {
     return (
       <li className="form__input-tags" key={tag.id}>
         <input
-          className={errors?.tags ? 'form__input input-tag error' : 'form__input input-tag'}
+          className={errors?.tagList ? 'form__input input-tag error' : 'form__input input-tag'}
           placeholder="Tag"
           defaultValue={tag[idx]}
-          {...register(`tags.${idx}`)}
+          {...register(`tagList.${idx}`)}
         />
         <Button type="primary" danger ghost className="btn-tag" onClick={() => remove(idx)}>
           Delete
@@ -95,25 +84,25 @@ const CreateArticle = () => {
             Text
             <br />
             <textarea
-              className={errors?.text ? 'form__input error' : 'form__input'}
+              className={errors?.body ? 'form__input error' : 'form__input'}
               rows={5}
               placeholder="Text"
-              {...register('text', { required: 'The field must be filled in' })}
+              {...register('body', { required: 'The field must be filled in' })}
             />
           </label>
           <br />
-          <div className="form__error">{errors?.text && <p>{errors?.text?.message}</p>}</div>
+          <div className="form__error">{errors?.body && <p>{errors?.body?.message}</p>}</div>
           <label className="form__label">
             Tags
             <br />
             {fields.length === 0 ? (
               <div className="form__input-tags">
                 <input
-                  className={errors?.tags ? 'form__input input-tag error' : 'form__input input-tag'}
+                  className={errors?.tagList ? 'form__input input-tag error' : 'form__input input-tag'}
                   placeholder="Tag"
-                  {...register('tags')}
+                  {...register('tagList')}
                 />
-                <Button type="primary" ghost className="btn-tag" onClick={() => append(watch('tags'))}>
+                <Button type="primary" ghost className="btn-tag" onClick={() => append(watch('tagList'))}>
                   Add tag
                 </Button>
               </div>
@@ -121,7 +110,7 @@ const CreateArticle = () => {
               <ul className="form__list-tags">{elementsTags}</ul>
             )}
           </label>
-          <div className="form__error">{errors?.tags && <p>{errors?.tags?.message}</p>}</div>
+          <div className="form__error">{errors?.tagList && <p>{errors?.tagList?.message}</p>}</div>
           <Button htmlType="submit" className="form__btn new-article__btn" size="large" type="primary">
             Send
           </Button>
