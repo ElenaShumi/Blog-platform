@@ -34,27 +34,27 @@ export default function Header() {
         {!authentication ? (
           <>
             <Link to="/sign-in">
-              <Button className="header_btn" type="text">
+              <Button className="header__btn" type="text">
                 Sign In
               </Button>
             </Link>
             <Link to="/sign-up">
-              <Button className="header_btn header_btn--register">Sign Up</Button>
+              <Button className="header__btn header__btn--register">Sign Up</Button>
             </Link>
           </>
         ) : (
           <>
-            <Link to="">
-              <Button className="header_btn header_btn--create">Create article</Button>
+            <Link to="/new-article">
+              <Button className="header__btn header__btn--create">Create article</Button>
             </Link>
             <Link to="/profile">
-              <div className="header_user user">
-                <p className="user_name">{nameUser}</p>
+              <div className="header__user user">
+                <p className="user__name">{nameUser}</p>
                 <Avatar size="large" icon={<UserOutlined />} src={imageUser} />
               </div>
             </Link>
             <Button
-              className="header_btn header_btn--out"
+              className="header__btn header__btn--out"
               onClick={() => {
                 dispatch(logOutUser())
                 navigate('/articles')

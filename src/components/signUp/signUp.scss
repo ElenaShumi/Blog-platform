@@ -40,7 +40,8 @@
     }
 
     &__input {
-        width: 290px;
+        // width: 290px;
+        width: calc(100% - 26px);
         margin-bottom: 12px;
         padding: 8px 12px;
 

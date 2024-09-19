@@ -6,6 +6,7 @@ import ArticleItem from '../articleItem'
 import SignUp from '../signUp'
 import SignIn from '../signIn'
 import Profile from '../profile'
+import CreateArticle from '../createArticle'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="sign-up" element={<SignUp />} />
           <Route path="sign-in" element={<SignIn />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="new-article" element={<CreateArticle />} />
           {/* <Route path="*" element={<NotFoundPage />} /> Создать этот компонент*/}
         </Route>
       </Routes>

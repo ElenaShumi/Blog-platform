@@ -20,7 +20,7 @@
         color: #000000D9;
     }
 
-    &_user {
+    &__user {
         display: flex;
         align-items: center;
         text-decoration: none;
@@ -29,7 +29,7 @@
         gap: 13px;
     }
 
-    .header_btn {
+    .header__btn {
         font-size: 18px;
         font-family: 'Inter UI', sans-serif;
         line-height: 28px;
