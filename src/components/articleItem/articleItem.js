@@ -7,22 +7,24 @@ import './articleItem.scss'
 
 import SingleArticle from '../singleArticle'
 import { fetchSingleArticle, selectorSingleArticle } from '../../store/articlesSlice'
+import { selectorUsername } from '../../store/authenticationSlice'
 
 export default function ArticleItem() {
   const { slug } = useParams()
   const dispatch = useDispatch()
   const article = useSelector(selectorSingleArticle)
+  const authorizedUser = useSelector(selectorUsername)
 
   useEffect(() => {
     dispatch(fetchSingleArticle(slug))
   }, [slug])
-
+  console.log(article)
   return (
     <div className="main">
       {article && (
         <div className="item--flex">
           <div className="article-item article-item--max">
-            <SingleArticle article={article} singleArticle={true} />
+            <SingleArticle article={article} singleArticle={true} authorizedUser={authorizedUser} />
           </div>
           <Markdown remarkPlugins={[remarkGfm]} className="article-item__body">
             {article.body}

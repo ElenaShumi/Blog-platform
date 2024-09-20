@@ -15,7 +15,7 @@ const EditArticle = () => {
 
   const onSubmit = (data) => {
     dispatch(fetchUpdateArticle({ token, slug, ...data }))
-    navigate('/articles')
+    navigate(`/articles/${slug}`)
   }
   console.log(currentArticle)
   console.log(slug)

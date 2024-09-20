@@ -23,7 +23,7 @@ const SignIn = () => {
 
   const onSubmit = ({ email, password }) => {
     dispatch(fetchLoginUser({ email, password }))
-    console.log(fromPage)
+
     navigate(fromPage, { replace: true })
   }
 

@@ -9,8 +9,7 @@ const createSlice = buildCreateSlice({
 const getInfoUser = (state, action) => {
   const { token, username, email, image } = action.payload.user
   localStorage.setItem('token', token)
-  // console.log('Update')
-  // console.log(username)
+
   state.token = token
   state.username = username
   state.email = email

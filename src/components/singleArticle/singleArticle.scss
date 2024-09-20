@@ -3,7 +3,7 @@
     grid-template-columns: 15fr 3fr 1fr;
     grid-template-areas: "group-1 group-2 avatar"
                          "tag-list group-2 avatar"
-                         "description group-2 avatar";
+                         "description btn-delete btn-edit";
     column-gap: 13px;
     row-gap: 4px;
     
@@ -97,5 +97,17 @@
     &__likes,
     &__description {
         margin: 0;
+    }
+
+    &__btn {
+        &--delete {
+            grid-area: btn-delete;
+        }
+
+        &--edit {
+            color: #52C41A;
+            border-color: #52C41A;
+            grid-area: btn-edit;
+        }
     }
 }

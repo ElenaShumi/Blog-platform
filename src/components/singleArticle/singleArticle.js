@@ -1,13 +1,16 @@
+import { Link, useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import { HeartOutlined } from '@ant-design/icons'
+import { Button, Popconfirm } from 'antd'
 
 import './singleArticle.scss'
 
-const SingleArticle = ({ article, singleArticle }) => {
+const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
+  const { slug } = useParams()
   const truncateOverview = (str = 0, num) => {
     return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
   }
-  // console.log(article)
+
   const tags = article?.tagList?.map((tag, index) => {
     if (tag === null) return null
     let tagCount = 7
@@ -41,6 +44,23 @@ const SingleArticle = ({ article, singleArticle }) => {
         <p className="article-item__date">{format(article.createdAt, 'MMMM d, yyyy')}</p>
       </div>
       <img className="article-item__avatar" src={article.author.image} alt="avatar" />
+      {singleArticle && article.author.username === authorizedUser ? (
+        <>
+          <Popconfirm
+            placement="rightTop"
+            description="Are you sure to delete this article?"
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button danger className="article-item__btn article-item__btn--delete">
+              Delete
+            </Button>
+          </Popconfirm>
+          <Link to={`/articles/${slug}/edit`}>
+            <Button className="article-item__btn article-item__btn--edit">Edit</Button>
+          </Link>
+        </>
+      ) : null}
     </>
   )
 }
