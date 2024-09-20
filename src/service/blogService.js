@@ -31,8 +31,8 @@ export default class BlogService {
     })
   }
 
-  static postLoginUser(user) {
-    return this.#fetchRequest(`${this._apiBase}/users/login`, {
+  static async postLoginUser(user) {
+    return await this.#fetchRequest(`${this._apiBase}/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

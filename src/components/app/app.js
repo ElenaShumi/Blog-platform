@@ -7,6 +7,8 @@ import SignUp from '../signUp'
 import SignIn from '../signIn'
 import Profile from '../profile'
 import CreateArticle from '../createArticle'
+import EditArticle from '../editArticle'
+import RequireAuth from '../../hoc/requireAuth'
 
 function App() {
   return (
@@ -16,10 +18,18 @@ function App() {
           <Route index element={<Main />} />
           <Route path="articles" element={<Main />} />
           <Route path="articles/:slug" element={<ArticleItem />} />
+          <Route path="articles/:slug/edit" element={<EditArticle />} />
           <Route path="sign-up" element={<SignUp />} />
           <Route path="sign-in" element={<SignIn />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="new-article" element={<CreateArticle />} />
+          <Route
+            path="new-article"
+            element={
+              <RequireAuth>
+                <CreateArticle />
+              </RequireAuth>
+            }
+          />
           {/* <Route path="*" element={<NotFoundPage />} /> Создать этот компонент*/}
         </Route>
       </Routes>

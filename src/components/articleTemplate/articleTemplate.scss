@@ -1,0 +1,35 @@
+.new-article__container {
+    &.container {
+        min-width: 80%;
+
+        .form__input-tags {
+            display: flex;
+            gap: 18px;
+            align-items: flex-end;
+            margin-bottom: 5px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .form__list-tags {
+            padding: 0;
+            margin: 0;
+        }
+
+        .input-tag {
+           margin: 0;
+           width: 30%;
+        }
+
+        .btn-tag {
+            height: 42px;
+            width: 120px;
+        }
+
+        .new-article__btn {
+            max-width: 319px;
+        }
+    }
+}

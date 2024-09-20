@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import './signIn.scss'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
@@ -9,15 +9,22 @@ import { fetchLoginUser } from '../../store/authenticationSlice'
 const SignIn = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'onBlur' })
 
+  const fromPage = location.state?.from?.pathname || '/articles'
+
+  console.log(location)
+
   const onSubmit = ({ email, password }) => {
     dispatch(fetchLoginUser({ email, password }))
-    navigate('/articles')
+    console.log(fromPage)
+    navigate(fromPage, { replace: true })
   }
 
   return (

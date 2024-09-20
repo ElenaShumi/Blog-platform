@@ -7,7 +7,7 @@ const SingleArticle = ({ article, singleArticle }) => {
   const truncateOverview = (str = 0, num) => {
     return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
   }
-  console.log(article)
+  // console.log(article)
   const tags = article?.tagList?.map((tag, index) => {
     if (tag === null) return null
     let tagCount = 7
