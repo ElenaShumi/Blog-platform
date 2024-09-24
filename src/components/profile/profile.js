@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import './profile.scss'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
@@ -9,11 +9,11 @@ import { fetchUpdateUser, selectorToken, selectorUsername, selectorEmail } from 
 const Profile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const token = useSelector(selectorToken)
   const userName = useSelector(selectorUsername)
   const userEmail = useSelector(selectorEmail)
 
-  console.log(userName)
   const {
     register,
     handleSubmit,
@@ -34,7 +34,7 @@ const Profile = () => {
     }
 
     dispatch(fetchUpdateUser({ token, ...user }))
-    navigate('/articles')
+    navigate('/articles', { state: { from: location } })
   }
 
   return (

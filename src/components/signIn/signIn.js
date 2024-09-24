@@ -19,12 +19,10 @@ const SignIn = () => {
 
   const fromPage = location.state?.from?.pathname || '/articles'
 
-  console.log(location)
-
   const onSubmit = ({ email, password }) => {
     dispatch(fetchLoginUser({ email, password }))
 
-    navigate(fromPage, { replace: true })
+    navigate(fromPage, { state: { from: location } })
   }
 
   return (

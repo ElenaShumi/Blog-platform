@@ -9,20 +9,20 @@ export default class BlogService {
     }
 
     const data = await response.json()
-    // console.log(data)
+
     return data
   }
 
-  static getArticles(count) {
-    return this.#fetchRequest(`${this._apiBase}/articles?limit=5&offset=${count}`)
+  static async getArticles(count) {
+    return await this.#fetchRequest(`${this._apiBase}/articles?limit=5&offset=${count}`)
   }
 
-  static getSingleArticle(slug) {
-    return this.#fetchRequest(`${this._apiBase}/articles/${slug}`)
+  static async getSingleArticle(slug) {
+    return await this.#fetchRequest(`${this._apiBase}/articles/${slug}`)
   }
 
-  static postNewUser(user) {
-    return this.#fetchRequest(`${this._apiBase}/users`, {
+  static async postNewUser(user) {
+    return await this.#fetchRequest(`${this._apiBase}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -41,15 +41,15 @@ export default class BlogService {
     })
   }
 
-  static getCurrentUser(token) {
-    return this.#fetchRequest(`${this._apiBase}/user`, {
+  static async getCurrentUser(token) {
+    return await this.#fetchRequest(`${this._apiBase}/user`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     })
   }
 
-  static updateCurrentUser({ token, ...rest }) {
-    return this.#fetchRequest(`${this._apiBase}/user`, {
+  static async updateCurrentUser({ token, ...rest }) {
+    return await this.#fetchRequest(`${this._apiBase}/user`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -58,8 +58,8 @@ export default class BlogService {
     })
   }
 
-  static createAnArticle({ token, ...rest }) {
-    return this.#fetchRequest(`${this._apiBase}/articles`, {
+  static async createAnArticle({ token, ...rest }) {
+    return await this.#fetchRequest(`${this._apiBase}/articles`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -68,13 +68,20 @@ export default class BlogService {
     })
   }
 
-  static updateAnArticle({ token, slug, ...rest }) {
-    return this.#fetchRequest(`${this._apiBase}/articles/${slug}`, {
+  static async updateAnArticle({ token, slug, ...rest }) {
+    return await this.#fetchRequest(`${this._apiBase}/articles/${slug}`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         article: rest,
       }),
+    })
+  }
+
+  static async deleteAnArticle({ token, slug }) {
+    return await this.#fetchRequest(`${this._apiBase}/articles/${slug}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
     })
   }
 }

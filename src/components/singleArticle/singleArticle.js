@@ -1,12 +1,20 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import { HeartOutlined } from '@ant-design/icons'
 import { Button, Popconfirm } from 'antd'
 
 import './singleArticle.scss'
+import { fetchDeleteArticle } from '../../store/articlesSlice'
+import { selectorToken } from '../../store/authenticationSlice'
 
 const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
   const { slug } = useParams()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const token = useSelector(selectorToken)
+
   const truncateOverview = (str = 0, num) => {
     return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
   }
@@ -25,6 +33,11 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
       )
     }
   })
+
+  const deleteArticle = () => {
+    dispatch(fetchDeleteArticle({ token, slug }))
+    navigate('/articles', { state: { from: location } })
+  }
 
   return (
     <>
@@ -49,6 +62,7 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
           <Popconfirm
             placement="rightTop"
             description="Are you sure to delete this article?"
+            onConfirm={deleteArticle}
             okText="Yes"
             cancelText="No"
           >

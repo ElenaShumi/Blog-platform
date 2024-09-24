@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
@@ -17,6 +17,7 @@ import {
 export default function Header() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const authentication = useSelector(selectorToken)
   const nameUser = useSelector(selectorUsername)
   const imageUser = useSelector(selectorImage)
@@ -57,7 +58,7 @@ export default function Header() {
               className="header__btn header__btn--out"
               onClick={() => {
                 dispatch(logOutUser())
-                navigate('/articles')
+                navigate('/articles', { state: { from: location } })
               }}
             >
               Log Out

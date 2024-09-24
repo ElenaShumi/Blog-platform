@@ -1,5 +1,5 @@
 import './editArticle.scss'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { selectorToken } from '../../store/authenticationSlice'
@@ -8,6 +8,7 @@ import ArticleTemplate from '../articleTemplate/articleTemplate'
 
 const EditArticle = () => {
   const { slug } = useParams()
+  const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const token = useSelector(selectorToken)
@@ -15,7 +16,7 @@ const EditArticle = () => {
 
   const onSubmit = (data) => {
     dispatch(fetchUpdateArticle({ token, slug, ...data }))
-    navigate(`/articles/${slug}`)
+    navigate(`/articles/${slug}`, { state: { from: location } })
   }
   console.log(currentArticle)
   console.log(slug)

@@ -1,6 +1,6 @@
 import { Checkbox, Button } from 'antd'
 import './signUp.scss'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useForm, Controller } from 'react-hook-form'
 
@@ -9,6 +9,7 @@ import { fetchRegisterUser } from '../../store/authenticationSlice'
 const SignUp = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const {
     register,
     handleSubmit,
@@ -19,7 +20,7 @@ const SignUp = () => {
 
   const onSubmit = ({ username, email, password }) => {
     dispatch(fetchRegisterUser({ username, email, password }))
-    navigate('/articles')
+    navigate('/articles', { state: { from: location } })
   }
 
   return (

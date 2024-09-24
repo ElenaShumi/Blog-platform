@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Pagination, Spin, Result } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import SingleArticle from '../singleArticle'
 import { fetchArticles, selectorArticles, selectorArticlesCount, selectorStatus } from '../../store/articlesSlice'
@@ -11,13 +11,17 @@ import './articlesList.scss'
 export default function ArticlesList() {
   const dispatch = useDispatch()
   const [page, setPage] = useState(1)
+  const location = useLocation()
   const articlesList = useSelector(selectorArticles)
   const articlesCount = useSelector(selectorArticlesCount)
   const status = useSelector(selectorStatus)
+  const fromPage = location.state?.from?.pathname
 
   useEffect(() => {
+    console.log(fromPage)
+    console.log(articlesList)
     dispatch(fetchArticles())
-  }, [dispatch])
+  }, [dispatch, fromPage])
 
   let elements = articlesList.map((article) => {
     return (

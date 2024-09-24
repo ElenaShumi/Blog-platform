@@ -25,7 +25,8 @@ const articlesSlice = createSlice({
     fetchArticles: create.asyncThunk(
       async function (count = 0, { rejectWithValue }) {
         try {
-          return BlogService.getArticles(count)
+          console.log('Запрос')
+          return await BlogService.getArticles(count)
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -39,10 +40,12 @@ const articlesSlice = createSlice({
           state.status = 'resolved'
           state.articles = action.payload.articles
           state.articlesCount = action.payload.articlesCount
+          console.log(action.payload.articles)
         },
         rejected: (state, action) => {
           state.status = 'rejected'
           state.error = action.payload
+          console.log('ops! create error')
         },
       }
     ),
@@ -50,7 +53,7 @@ const articlesSlice = createSlice({
     fetchSingleArticle: create.asyncThunk(
       async function (slug, { rejectWithValue }) {
         try {
-          return BlogService.getSingleArticle(slug)
+          return await BlogService.getSingleArticle(slug)
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -74,7 +77,7 @@ const articlesSlice = createSlice({
     fetchCreateArticle: create.asyncThunk(
       async function (info, { rejectWithValue }) {
         try {
-          return BlogService.createAnArticle(info)
+          return await BlogService.createAnArticle(info)
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -86,7 +89,7 @@ const articlesSlice = createSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'resolved'
-          console.log(action.payload.article)
+          state.singleArticle = action.payload.article
         },
         rejected: (state, action) => {
           state.status = 'rejected'
@@ -98,7 +101,7 @@ const articlesSlice = createSlice({
     fetchUpdateArticle: create.asyncThunk(
       async function (info, { rejectWithValue }) {
         try {
-          return BlogService.updateAnArticle(info)
+          return await BlogService.updateAnArticle(info)
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -118,6 +121,14 @@ const articlesSlice = createSlice({
         },
       }
     ),
+
+    fetchDeleteArticle: create.asyncThunk(async function (info, { rejectWithValue }) {
+      try {
+        return await BlogService.deleteAnArticle(info)
+      } catch (error) {
+        return rejectWithValue(error.message)
+      }
+    }),
   }),
 
   selectors: {
@@ -128,8 +139,14 @@ const articlesSlice = createSlice({
   },
 })
 
-export const { stopLoading, fetchArticles, fetchSingleArticle, fetchCreateArticle, fetchUpdateArticle } =
-  articlesSlice.actions
+export const {
+  stopLoading,
+  fetchArticles,
+  fetchSingleArticle,
+  fetchCreateArticle,
+  fetchUpdateArticle,
+  fetchDeleteArticle,
+} = articlesSlice.actions
 
 export const { selectorArticles, selectorStatus, selectorArticlesCount, selectorSingleArticle } =
   articlesSlice.selectors

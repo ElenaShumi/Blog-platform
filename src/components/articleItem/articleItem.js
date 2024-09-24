@@ -18,7 +18,7 @@ export default function ArticleItem() {
   useEffect(() => {
     dispatch(fetchSingleArticle(slug))
   }, [slug])
-  console.log(article)
+  // console.log(article)
   return (
     <div className="main">
       {article && (
