@@ -14,9 +14,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Header />}>
+        <Route forceRefresh={true} path="/" element={<Header />}>
           <Route index element={<Main />} />
-          <Route path="articles" element={<Main />} />
+          <Route forceRefresh={true} path="articles" element={<Main />} />
           <Route path="articles/:slug" element={<ArticleItem />} />
           <Route path="articles/:slug/edit" element={<EditArticle />} />
           <Route path="sign-up" element={<SignUp />} />
@@ -30,7 +30,6 @@ function App() {
               </RequireAuth>
             }
           />
-          {/* <Route path="*" element={<NotFoundPage />} /> Создать этот компонент*/}
         </Route>
       </Routes>
     </>

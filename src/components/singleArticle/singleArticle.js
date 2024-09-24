@@ -1,11 +1,13 @@
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+// import { useEffect } from 'react'
 import { format } from 'date-fns'
 import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import { Button, Popconfirm } from 'antd'
 
 import './singleArticle.scss'
-import { fetchDeleteArticle, fetchFavoriteAnArticle } from '../../store/articlesSlice'
+
+import { fetchDeleteArticle, fetchFavoriteAnArticle, selectorPage } from '../../store/articlesSlice'
 import { selectorToken } from '../../store/authenticationSlice'
 
 const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
@@ -14,6 +16,7 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const token = useSelector(selectorToken)
+  const page = useSelector(selectorPage)
 
   const truncateOverview = (str = 0, num) => {
     return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
@@ -40,7 +43,7 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
   }
 
   const putLike = (slug, favorited) => {
-    if (token) dispatch(fetchFavoriteAnArticle({ token, slug, favorited }))
+    if (token) dispatch(fetchFavoriteAnArticle({ token, slug, favorited, count: page * 5 - 5 }))
   }
 
   return (

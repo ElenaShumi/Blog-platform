@@ -1,9 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Pagination, Spin, Result } from 'antd'
 import { useLocation } from 'react-router-dom'
 
-import { fetchArticles, selectorArticles, selectorArticlesCount, selectorStatus } from '../../store/articlesSlice'
+import {
+  editPages,
+  fetchArticles,
+  selectorArticles,
+  selectorArticlesCount,
+  selectorPage,
+  selectorStatus,
+} from '../../store/articlesSlice'
 import { selectorToken } from '../../store/authenticationSlice'
 import SingleArticle from '../singleArticle'
 
@@ -11,7 +18,8 @@ import './articlesList.scss'
 
 export default function ArticlesList() {
   const dispatch = useDispatch()
-  const [page, setPage] = useState(1)
+  const currentPage = useSelector(selectorPage)
+  // const [page, setPage] = useState(1)
   const location = useLocation()
   const articlesList = useSelector(selectorArticles)
   const articlesCount = useSelector(selectorArticlesCount)
@@ -20,9 +28,7 @@ export default function ArticlesList() {
   const fromPage = location.state?.from?.pathname
 
   useEffect(() => {
-    // console.log(username)
-    // console.log(articlesList)
-    dispatch(fetchArticles({ count: 1, token }))
+    dispatch(fetchArticles({ count: currentPage * 5 - 5, token }))
   }, [dispatch, fromPage])
 
   let elements = articlesList.map((article) => {
@@ -32,10 +38,9 @@ export default function ArticlesList() {
       </div>
     )
   })
-  // console.log(articlesList)
-  const onChangePages = (page) => {
-    setPage(page)
 
+  const onChangePages = (page) => {
+    dispatch(editPages(page))
     dispatch(fetchArticles({ count: page * 5 - 5, token }))
   }
 
@@ -50,7 +55,13 @@ export default function ArticlesList() {
           </Spin>
         )}
       </ul>
-      <Pagination total={articlesCount} pageSize={5} showSizeChanger={false} onChange={onChangePages} current={page} />
+      <Pagination
+        total={articlesCount}
+        pageSize={5}
+        showSizeChanger={false}
+        onChange={onChangePages}
+        defaultCurrent={currentPage}
+      />
     </>
   )
 }

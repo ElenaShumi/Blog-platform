@@ -13,7 +13,7 @@ export default class BlogService {
     return data
   }
 
-  static async getArticles({ count = 1, token }) {
+  static async getArticles({ count, token }) {
     return await this.#fetchRequest(`${this._apiBase}/articles?limit=5&offset=${count}`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },

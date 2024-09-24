@@ -14,6 +14,7 @@ const articlesSlice = createSlice({
     favoriteArticles: [],
     singleArticle: null,
     articlesCount: null,
+    page: 1,
     status: null,
     error: null,
   },
@@ -23,13 +24,14 @@ const articlesSlice = createSlice({
       state.status = 'resolved'
     }),
 
+    editPages: create.reducer((state, page) => {
+      state.page = page
+    }),
+
     fetchArticles: create.asyncThunk(
       async function (parameters, { rejectWithValue }) {
         try {
-          console.log('Запрос')
-          // const favoriteAnArticle = await BlogService.getFavoriteArticles(parameters)
-          const allArticles = await BlogService.getArticles(parameters)
-          return allArticles
+          return await BlogService.getArticles(parameters)
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -42,14 +44,11 @@ const articlesSlice = createSlice({
         fulfilled: (state, action) => {
           state.status = 'resolved'
           state.articles = action.payload.articles
-          // state.favoriteArticles = action.payload.favoriteAnArticle.articles
           state.articlesCount = action.payload.articlesCount
-          console.log(action.payload)
         },
         rejected: (state, action) => {
           state.status = 'rejected'
           state.error = action.payload
-          console.log('ops! create error')
         },
       }
     ),
@@ -115,9 +114,8 @@ const articlesSlice = createSlice({
           state.status = 'loading'
           state.error = null
         },
-        fulfilled: (state, action) => {
+        fulfilled: (state) => {
           state.status = 'resolved'
-          console.log(action.payload.article)
         },
         rejected: (state, action) => {
           state.status = 'rejected'
@@ -134,13 +132,25 @@ const articlesSlice = createSlice({
       }
     }),
 
-    fetchFavoriteAnArticle: create.asyncThunk(async function (info, { rejectWithValue }) {
-      try {
-        return await BlogService.favoriteAnArticle(info)
-      } catch (error) {
-        return rejectWithValue(error.message)
+    fetchFavoriteAnArticle: create.asyncThunk(
+      async function (info, { rejectWithValue, dispatch }) {
+        try {
+          const res = await BlogService.favoriteAnArticle(info)
+          dispatch(fetchArticles(info))
+          return res
+        } catch (error) {
+          return rejectWithValue(error.message)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          state.singleArticle = action.payload.article
+        },
+        rejected: (state, action) => {
+          state.error = action.payload
+        },
       }
-    }),
+    ),
   }),
 
   selectors: {
@@ -149,6 +159,7 @@ const articlesSlice = createSlice({
     selectorStatus: (state) => state.status,
     selectorArticlesCount: (state) => state.articlesCount,
     selectorFavoriteArticles: (state) => state.favoriteArticles,
+    selectorPage: (state) => state.page,
   },
 })
 
@@ -160,6 +171,7 @@ export const {
   fetchUpdateArticle,
   fetchDeleteArticle,
   fetchFavoriteAnArticle,
+  editPages,
 } = articlesSlice.actions
 
 export const {
@@ -168,5 +180,6 @@ export const {
   selectorArticlesCount,
   selectorSingleArticle,
   selectorFavoriteArticles,
+  selectorPage,
 } = articlesSlice.selectors
 export default articlesSlice.reducer

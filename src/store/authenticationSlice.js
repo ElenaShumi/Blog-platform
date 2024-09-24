@@ -24,15 +24,12 @@ const authenticationSlice = createSlice({
     username: null,
     email: null,
     image: null,
-
-    // loading:
   },
 
   reducers: (create) => ({
     fetchRegisterUser: create.asyncThunk(
       async function (user, { rejectWithValue }) {
         try {
-          console.log(user)
           return BlogService.postNewUser(user)
         } catch (error) {
           return rejectWithValue(error.message)
