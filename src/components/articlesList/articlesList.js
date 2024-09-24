@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Pagination, Spin, Result } from 'antd'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
-import SingleArticle from '../singleArticle'
 import { fetchArticles, selectorArticles, selectorArticlesCount, selectorStatus } from '../../store/articlesSlice'
+import { selectorToken } from '../../store/authenticationSlice'
+import SingleArticle from '../singleArticle'
 
 import './articlesList.scss'
 
@@ -15,27 +16,27 @@ export default function ArticlesList() {
   const articlesList = useSelector(selectorArticles)
   const articlesCount = useSelector(selectorArticlesCount)
   const status = useSelector(selectorStatus)
+  const token = useSelector(selectorToken)
   const fromPage = location.state?.from?.pathname
 
   useEffect(() => {
-    console.log(fromPage)
-    console.log(articlesList)
-    dispatch(fetchArticles())
+    // console.log(username)
+    // console.log(articlesList)
+    dispatch(fetchArticles({ count: 1, token }))
   }, [dispatch, fromPage])
 
   let elements = articlesList.map((article) => {
     return (
-      <Link key={article.slug} to={`/articles/${article.slug}`}>
-        <div className="article-item article-item--min">
-          <SingleArticle article={article} />
-        </div>
-      </Link>
+      <div key={article.slug} className="article-item article-item--min">
+        <SingleArticle article={article} />
+      </div>
     )
   })
-
+  // console.log(articlesList)
   const onChangePages = (page) => {
     setPage(page)
-    dispatch(fetchArticles(page * 5 - 5))
+
+    dispatch(fetchArticles({ count: page * 5 - 5, token }))
   }
 
   return (

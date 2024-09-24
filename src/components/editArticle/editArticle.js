@@ -18,8 +18,7 @@ const EditArticle = () => {
     dispatch(fetchUpdateArticle({ token, slug, ...data }))
     navigate(`/articles/${slug}`, { state: { from: location } })
   }
-  console.log(currentArticle)
-  console.log(slug)
+
   return (
     <div className="main">
       <ArticleTemplate title={'Edit article'} onSubmit={onSubmit} currentArticle={currentArticle} />

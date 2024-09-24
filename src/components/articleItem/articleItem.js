@@ -7,18 +7,19 @@ import './articleItem.scss'
 
 import SingleArticle from '../singleArticle'
 import { fetchSingleArticle, selectorSingleArticle } from '../../store/articlesSlice'
-import { selectorUsername } from '../../store/authenticationSlice'
+import { selectorToken, selectorUsername } from '../../store/authenticationSlice'
 
 export default function ArticleItem() {
   const { slug } = useParams()
   const dispatch = useDispatch()
   const article = useSelector(selectorSingleArticle)
   const authorizedUser = useSelector(selectorUsername)
+  const token = useSelector(selectorToken)
 
   useEffect(() => {
-    dispatch(fetchSingleArticle(slug))
+    dispatch(fetchSingleArticle({ slug, token }))
   }, [slug])
-  // console.log(article)
+
   return (
     <div className="main">
       {article && (

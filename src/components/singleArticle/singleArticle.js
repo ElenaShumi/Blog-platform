@@ -1,11 +1,11 @@
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'date-fns'
-import { HeartOutlined } from '@ant-design/icons'
+import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import { Button, Popconfirm } from 'antd'
 
 import './singleArticle.scss'
-import { fetchDeleteArticle } from '../../store/articlesSlice'
+import { fetchDeleteArticle, fetchFavoriteAnArticle } from '../../store/articlesSlice'
 import { selectorToken } from '../../store/authenticationSlice'
 
 const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
@@ -39,14 +39,28 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
     navigate('/articles', { state: { from: location } })
   }
 
+  const putLike = (slug, favorited) => {
+    if (token) dispatch(fetchFavoriteAnArticle({ token, slug, favorited }))
+  }
+
   return (
     <>
       <div className="article-item__group-1">
-        <h3 className="article-item__title">{singleArticle ? article.title : truncateOverview(article.title, 40)}</h3>
-        <div className="article-item__likes">
-          <HeartOutlined className="article-item__likes-icon" />
+        {singleArticle ? (
+          <h3 className="article-item__title">{article.title}</h3>
+        ) : (
+          <Link key={article.slug} to={`/articles/${article.slug}`}>
+            <h3 className="article-item__title">{article.title}</h3>
+          </Link>
+        )}
+        <button className="article-item__likes" onClick={() => putLike(article.slug, article.favorited)}>
+          {article.favorited ? (
+            <HeartFilled key={article.slug} className="likes-icon likes-icon--favorite" />
+          ) : (
+            <HeartOutlined key={article.slug} className="likes-icon" />
+          )}
           <div>{article.favoritesCount}</div>
-        </div>
+        </button>
       </div>
       <ul className="article-item__tags-list">{tags}</ul>
       <p className="article-item__description">

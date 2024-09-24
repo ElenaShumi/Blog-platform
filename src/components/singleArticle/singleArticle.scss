@@ -9,10 +9,6 @@
     
     transition-duration: 0.3s;
 
-    &:hover {
-        border: 2px solid #1890FF;
-    }
-
     &__group-1 {
         grid-area: group-1;
         display: flex;
@@ -36,12 +32,25 @@
     &__likes {
         display: flex;
         gap: 5px;
-        padding-top: 2px;
+        justify-content: center;
 
-        &-icon {
+        border: none;
+        background-color: transparent;
+        padding-top: 2px;
+        cursor: pointer;
+
+        font-family: 'Inter UI', sans-serif;
+        font-size: 12px;
+        line-height: 22px;
+
+        .likes-icon {
             font-size: 16px;
-            padding-top: 4px;
+            padding-top: 3px;
             align-self: flex-start;
+
+            &--favorite {
+                color: #FF0707;
+            }
         }
     }
 

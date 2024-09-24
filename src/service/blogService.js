@@ -13,12 +13,18 @@ export default class BlogService {
     return data
   }
 
-  static async getArticles(count) {
-    return await this.#fetchRequest(`${this._apiBase}/articles?limit=5&offset=${count}`)
+  static async getArticles({ count = 1, token }) {
+    return await this.#fetchRequest(`${this._apiBase}/articles?limit=5&offset=${count}`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    })
   }
 
-  static async getSingleArticle(slug) {
-    return await this.#fetchRequest(`${this._apiBase}/articles/${slug}`)
+  static async getSingleArticle({ slug, token }) {
+    return await this.#fetchRequest(`${this._apiBase}/articles/${slug}`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    })
   }
 
   static async postNewUser(user) {
@@ -81,6 +87,13 @@ export default class BlogService {
   static async deleteAnArticle({ token, slug }) {
     return await this.#fetchRequest(`${this._apiBase}/articles/${slug}`, {
       method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  }
+
+  static async favoriteAnArticle({ token, slug, favorited }) {
+    return await this.#fetchRequest(`${this._apiBase}/articles/${slug}/favorite`, {
+      method: favorited ? 'DELETE' : 'POST',
       headers: { Authorization: `Bearer ${token}` },
     })
   }

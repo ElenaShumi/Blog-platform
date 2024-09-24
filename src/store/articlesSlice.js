@@ -11,6 +11,7 @@ const articlesSlice = createSlice({
 
   initialState: {
     articles: [],
+    favoriteArticles: [],
     singleArticle: null,
     articlesCount: null,
     status: null,
@@ -23,10 +24,12 @@ const articlesSlice = createSlice({
     }),
 
     fetchArticles: create.asyncThunk(
-      async function (count = 0, { rejectWithValue }) {
+      async function (parameters, { rejectWithValue }) {
         try {
           console.log('Запрос')
-          return await BlogService.getArticles(count)
+          // const favoriteAnArticle = await BlogService.getFavoriteArticles(parameters)
+          const allArticles = await BlogService.getArticles(parameters)
+          return allArticles
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -39,8 +42,9 @@ const articlesSlice = createSlice({
         fulfilled: (state, action) => {
           state.status = 'resolved'
           state.articles = action.payload.articles
+          // state.favoriteArticles = action.payload.favoriteAnArticle.articles
           state.articlesCount = action.payload.articlesCount
-          console.log(action.payload.articles)
+          console.log(action.payload)
         },
         rejected: (state, action) => {
           state.status = 'rejected'
@@ -51,9 +55,9 @@ const articlesSlice = createSlice({
     ),
 
     fetchSingleArticle: create.asyncThunk(
-      async function (slug, { rejectWithValue }) {
+      async function (obj, { rejectWithValue }) {
         try {
-          return await BlogService.getSingleArticle(slug)
+          return await BlogService.getSingleArticle(obj)
         } catch (error) {
           return rejectWithValue(error.message)
         }
@@ -129,6 +133,14 @@ const articlesSlice = createSlice({
         return rejectWithValue(error.message)
       }
     }),
+
+    fetchFavoriteAnArticle: create.asyncThunk(async function (info, { rejectWithValue }) {
+      try {
+        return await BlogService.favoriteAnArticle(info)
+      } catch (error) {
+        return rejectWithValue(error.message)
+      }
+    }),
   }),
 
   selectors: {
@@ -136,6 +148,7 @@ const articlesSlice = createSlice({
     selectorSingleArticle: (state) => state.singleArticle,
     selectorStatus: (state) => state.status,
     selectorArticlesCount: (state) => state.articlesCount,
+    selectorFavoriteArticles: (state) => state.favoriteArticles,
   },
 })
 
@@ -146,8 +159,14 @@ export const {
   fetchCreateArticle,
   fetchUpdateArticle,
   fetchDeleteArticle,
+  fetchFavoriteAnArticle,
 } = articlesSlice.actions
 
-export const { selectorArticles, selectorStatus, selectorArticlesCount, selectorSingleArticle } =
-  articlesSlice.selectors
+export const {
+  selectorArticles,
+  selectorStatus,
+  selectorArticlesCount,
+  selectorSingleArticle,
+  selectorFavoriteArticles,
+} = articlesSlice.selectors
 export default articlesSlice.reducer
