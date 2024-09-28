@@ -1,16 +1,18 @@
 import { Button } from 'antd'
 import './signIn.scss'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
 
-import { fetchLoginUser } from '../../store/authenticationSlice'
+import { fetchLoginUser, selectorErrors, selectorToken } from '../../store/authenticationSlice'
 
 const SignIn = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-
+  const authentication = useSelector(selectorToken)
+  const errorsAuthen = useSelector(selectorErrors)
   const {
     register,
     handleSubmit,
@@ -21,9 +23,11 @@ const SignIn = () => {
 
   const onSubmit = ({ email, password }) => {
     dispatch(fetchLoginUser({ email, password }))
-
-    navigate(fromPage, { state: { from: location } })
   }
+
+  useEffect(() => {
+    if (authentication) return navigate(fromPage, { state: { from: location } })
+  }, [authentication])
 
   return (
     <div className="main sign-in">
@@ -60,7 +64,10 @@ const SignIn = () => {
             />
           </label>
           <br />
-          <div className="form__error">{errors?.password && <p>{errors?.password?.message}</p>}</div>
+          <div className="form__error">
+            {(errors?.password && <p>{errors?.password?.message}</p>) ||
+              (errorsAuthen?.['email or password'] && <p>Email or password {errorsAuthen?.['email or password']}</p>)}
+          </div>
           <Button htmlType="submit" className="form__btn" size="large" type="primary">
             Login
           </Button>

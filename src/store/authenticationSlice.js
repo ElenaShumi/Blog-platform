@@ -52,13 +52,21 @@ const authenticationSlice = createSlice({
     fetchLoginUser: create.asyncThunk(
       async function (user, { rejectWithValue }) {
         try {
-          return BlogService.postLoginUser(user)
+          const data = await BlogService.postLoginUser(user)
+          if (data.status === 422) {
+            const errors = await data.json()
+            return rejectWithValue(errors)
+          }
+          return data
         } catch (error) {
           return rejectWithValue(error.message)
         }
       },
       {
         fulfilled: (state, action) => getInfoUser(state, action),
+        rejected: (state, action) => {
+          state.errors = action.payload.errors
+        },
       }
     ),
 
