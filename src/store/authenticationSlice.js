@@ -21,6 +21,7 @@ const authenticationSlice = createSlice({
 
   initialState: {
     token: localStorage.getItem('token'),
+    errors: null,
     username: null,
     email: null,
     image: null,
@@ -30,13 +31,21 @@ const authenticationSlice = createSlice({
     fetchRegisterUser: create.asyncThunk(
       async function (user, { rejectWithValue }) {
         try {
-          return BlogService.postNewUser(user)
+          const data = await BlogService.postNewUser(user)
+          if (data.status === 422) {
+            const errors = await data.json()
+            return rejectWithValue(errors)
+          }
+          return data
         } catch (error) {
           return rejectWithValue(error.message)
         }
       },
       {
         fulfilled: (state, action) => getInfoUser(state, action),
+        rejected: (state, action) => {
+          state.errors = action.payload.errors
+        },
       }
     ),
 
@@ -94,12 +103,14 @@ const authenticationSlice = createSlice({
     selectorEmail: (state) => state.email,
     selectorImage: (state) => state.image,
     selectorPassword: (state) => state.password,
+    selectorErrors: (state) => state.errors,
   },
 })
 
 export const { fetchRegisterUser, fetchLoginUser, logOutUser, fetchCurrentUser, fetchUpdateUser } =
   authenticationSlice.actions
 
-export const { selectorToken, selectorUsername, selectorEmail, selectorImage } = authenticationSlice.selectors
+export const { selectorToken, selectorUsername, selectorEmail, selectorImage, selectorErrors } =
+  authenticationSlice.selectors
 
 export default authenticationSlice.reducer

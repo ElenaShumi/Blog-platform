@@ -4,12 +4,16 @@ export default class BlogService {
   static async #fetchRequest(url, obj = {}) {
     const response = await fetch(url, obj)
 
+    if (response.status === 422) {
+      return response
+    }
     if (!response.ok) {
+      console.log('Error!')
+      console.log(await response.json())
       throw new Error('Server Error!')
     }
 
     const data = await response.json()
-
     return data
   }
 

@@ -1,15 +1,18 @@
 import { Checkbox, Button } from 'antd'
 import './signUp.scss'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm, Controller } from 'react-hook-form'
+import { useEffect } from 'react'
 
-import { fetchRegisterUser } from '../../store/authenticationSlice'
+import { fetchRegisterUser, selectorErrors, selectorToken } from '../../store/authenticationSlice'
 
 const SignUp = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+  const authentication = useSelector(selectorToken)
+  const errorsAuthen = useSelector(selectorErrors)
   const {
     register,
     handleSubmit,
@@ -20,8 +23,11 @@ const SignUp = () => {
 
   const onSubmit = ({ username, email, password }) => {
     dispatch(fetchRegisterUser({ username, email, password }))
-    navigate('/articles', { state: { from: location } })
   }
+
+  useEffect(() => {
+    if (authentication) return navigate('/articles', { state: { from: location } })
+  }, [authentication])
 
   return (
     <div className="main">
@@ -43,7 +49,10 @@ const SignUp = () => {
             />
           </label>
           <br />
-          <div className="form__error">{errors?.username && <p>{errors?.username?.message}</p>}</div>
+          <div className="form__error">
+            {(errors?.username && <p>{errors?.username?.message}</p>) ||
+              (errorsAuthen?.username && <p>Username {errorsAuthen?.username}</p>)}
+          </div>
           <label className="form__label">
             Email address
             <br />
@@ -62,7 +71,10 @@ const SignUp = () => {
             />
           </label>
           <br />
-          <div className="form__error">{errors?.email && <p>{errors?.email?.message}</p>}</div>
+          <div className="form__error">
+            {(errors?.email && <p>{errors?.email?.message}</p>) ||
+              (errorsAuthen?.email && <p>Email {errorsAuthen?.email}</p>)}
+          </div>
           <label className="form__label">
             Password
             <br />
@@ -100,7 +112,7 @@ const SignUp = () => {
             rules={{
               required: true,
             }}
-            render={({ field: { value = true, onChange } }) => (
+            render={({ field: { value, onChange } }) => (
               <Checkbox className="form__checkbox" checked={value} onChange={(e) => onChange(e.target.checked)}>
                 I agree to the processing of my personal information
               </Checkbox>

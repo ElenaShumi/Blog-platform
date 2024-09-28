@@ -62,7 +62,7 @@ const SignIn = () => {
           <br />
           <div className="form__error">{errors?.password && <p>{errors?.password?.message}</p>}</div>
           <Button htmlType="submit" className="form__btn" size="large" type="primary">
-            Create
+            Login
           </Button>
           <p className="form__text">
             Don’t have an account? <Link to="/sign-up">Sign Up.</Link>

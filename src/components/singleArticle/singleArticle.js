@@ -1,6 +1,5 @@
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useEffect } from 'react'
 import { format } from 'date-fns'
 import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import { Button, Popconfirm } from 'antd'
