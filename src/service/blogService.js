@@ -8,8 +8,6 @@ export default class BlogService {
       return response
     }
     if (!response.ok) {
-      console.log('Error!')
-      console.log(await response.json())
       throw new Error('Server Error!')
     }
 

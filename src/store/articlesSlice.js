@@ -133,10 +133,9 @@ const articlesSlice = createSlice({
     }),
 
     fetchFavoriteAnArticle: create.asyncThunk(
-      async function (info, { rejectWithValue, dispatch }) {
+      async function (info, { rejectWithValue }) {
         try {
           const res = await BlogService.favoriteAnArticle(info)
-          dispatch(fetchArticles(info))
           return res
         } catch (error) {
           return rejectWithValue(error.message)

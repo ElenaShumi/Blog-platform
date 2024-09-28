@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import { Button, Popconfirm } from 'antd'
+import { useState } from 'react'
 
 import './singleArticle.scss'
 
-import { fetchDeleteArticle, fetchFavoriteAnArticle, selectorPage } from '../../store/articlesSlice'
+import { fetchDeleteArticle, fetchFavoriteAnArticle } from '../../store/articlesSlice'
 import { selectorToken } from '../../store/authenticationSlice'
 
 const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
@@ -15,7 +16,8 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const token = useSelector(selectorToken)
-  const page = useSelector(selectorPage)
+  const [favorited, setFavorited] = useState(article.favorited)
+  const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount)
 
   const truncateOverview = (str = 0, num) => {
     return str.length > num ? str.slice(0, str.indexOf('', num)) + '…' : str
@@ -41,8 +43,12 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
     navigate('/articles', { state: { from: location } })
   }
 
-  const putLike = (slug, favorited) => {
-    if (token) dispatch(fetchFavoriteAnArticle({ token, slug, favorited, count: page * 5 - 5 }))
+  const putLike = (slug) => {
+    if (token) {
+      setFavorited(!favorited)
+      setFavoritesCount(favoritesCount + (favorited ? -1 : 1))
+      dispatch(fetchFavoriteAnArticle({ token, slug, favorited }))
+    }
   }
 
   return (
@@ -55,13 +61,13 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
             <h3 className="article-item__title">{article.title}</h3>
           </Link>
         )}
-        <button className="article-item__likes" onClick={() => putLike(article.slug, article.favorited)}>
-          {article.favorited ? (
+        <button className="article-item__likes" onClick={() => putLike(article.slug)}>
+          {favorited ? (
             <HeartFilled key={article.slug} className="likes-icon likes-icon--favorite" />
           ) : (
             <HeartOutlined key={article.slug} className="likes-icon" />
           )}
-          <div>{article.favoritesCount}</div>
+          <div>{favoritesCount}</div>
         </button>
       </div>
       <ul className="article-item__tags-list">{tags}</ul>
