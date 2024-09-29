@@ -80,6 +80,7 @@ const articlesSlice = createSlice({
     fetchCreateArticle: create.asyncThunk(
       async function (info, { rejectWithValue }) {
         try {
+          console.log(info)
           return await BlogService.createAnArticle(info)
         } catch (error) {
           return rejectWithValue(error.message)

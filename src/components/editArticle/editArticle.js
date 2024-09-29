@@ -14,8 +14,9 @@ const EditArticle = () => {
   const token = useSelector(selectorToken)
   const currentArticle = useSelector(selectorSingleArticle)
 
-  const onSubmit = (data) => {
-    dispatch(fetchUpdateArticle({ token, slug, ...data }))
+  const onSubmit = ({ tagList, ...data }) => {
+    const arrayTag = tagList.map((elements) => elements.tag)
+    dispatch(fetchUpdateArticle({ token, slug, tagList: arrayTag, ...data }))
     navigate(`/articles/${slug}`, { state: { from: location } })
   }
 

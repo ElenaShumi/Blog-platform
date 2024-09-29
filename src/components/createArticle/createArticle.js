@@ -12,8 +12,9 @@ const CreateArticle = () => {
   const location = useLocation()
   const token = useSelector(selectorToken)
 
-  const onSubmit = (data) => {
-    dispatch(fetchCreateArticle({ token, ...data }))
+  const onSubmit = ({ tagList, ...data }) => {
+    const arrayTag = tagList.map((elements) => elements.tag)
+    dispatch(fetchCreateArticle({ token, tagList: arrayTag, ...data }))
     navigate('/articles', { state: { from: location } })
   }
 
