@@ -34,20 +34,18 @@ export default function Header() {
         </Link>
         {!authentication ? (
           <>
-            <Link to="/sign-in">
-              <Button className="header__btn" type="text">
-                Sign In
-              </Button>
-            </Link>
-            <Link to="/sign-up">
-              <Button className="header__btn header__btn--register">Sign Up</Button>
-            </Link>
+            <Button className="header__btn" type="text" onClick={() => navigate('/sign-in')}>
+              Sign In
+            </Button>
+            <Button className="header__btn header__btn--register" onClick={() => navigate('/sign-up')}>
+              Sign Up
+            </Button>
           </>
         ) : (
           <>
-            <Link to="/new-article">
-              <Button className="header__btn header__btn--create">Create article</Button>
-            </Link>
+            <Button className="header__btn header__btn--create" onClick={() => navigate('/new-article')}>
+              Create article
+            </Button>
             <Link to="/profile">
               <div className="header__user user">
                 <p className="user__name">{nameUser}</p>

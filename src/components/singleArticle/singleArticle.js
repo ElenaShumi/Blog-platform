@@ -92,9 +92,12 @@ const SingleArticle = ({ article, singleArticle, authorizedUser }) => {
               Delete
             </Button>
           </Popconfirm>
-          <Link to={`/articles/${slug}/edit`}>
-            <Button className="article-item__btn article-item__btn--edit">Edit</Button>
-          </Link>
+          <Button
+            className="article-item__btn article-item__btn--edit"
+            onClick={() => navigate(`/articles/${slug}/edit`)}
+          >
+            Edit
+          </Button>
         </>
       ) : null}
     </>
