@@ -1,7 +1,6 @@
 import { Button } from 'antd'
 import './articleTemplate.scss'
 import { useForm, useFieldArray } from 'react-hook-form'
-// import { useEffect } from 'react'
 
 const ArticleTemplate = ({ title, onSubmit, currentArticle }) => {
   const defaultTagList =
@@ -66,51 +65,53 @@ const ArticleTemplate = ({ title, onSubmit, currentArticle }) => {
         <label className="form__label">
           Tags
           <br />
-          {fields.map((field, index) => {
-            return (
-              <div key={field.id}>
-                <div className="form__input-tags">
-                  <input
-                    className={errors?.tagList?.[index] ? 'form__input input-tag error' : 'form__input input-tag'}
-                    placeholder="Tag"
-                    defaultValue={field[index]}
-                    {...register(`tagList.${index}.tag`, {
-                      required: 'The field must be filled in',
-                      validate: (value) => !value.match(/^[ ]+$/) || 'The field should not contain only spaces',
-                    })}
-                  />
-                  {fields.length !== 1 ? (
-                    <Button
-                      htmlType="button"
-                      type="primary"
-                      danger
-                      ghost
-                      className="btn-tag"
-                      onClick={() => remove(index)}
-                    >
-                      Delete
-                    </Button>
-                  ) : null}
-                  {index === fields.length - 1 ? (
-                    <Button
-                      htmlType="button"
-                      type="primary"
-                      ghost
-                      className="btn-tag"
-                      onClick={() => append({ tag: '' })}
-                    >
-                      Add tag
-                    </Button>
-                  ) : null}
-                </div>
-                <div className="form__error">
-                  {errors?.tagList?.[index] && (
-                    <p className="form__error--tags">{errors?.tagList?.[index]?.tag.message}</p>
-                  )}
-                </div>
-              </div>
-            )
-          })}
+          <div className="form__tags">
+            <ul className="form__list-tags">
+              {fields.map((field, index) => {
+                return (
+                  <div key={field.id}>
+                    <li className="form__input-tags">
+                      <input
+                        className={errors?.tagList?.[index] ? 'form__input input-tag error' : 'form__input input-tag'}
+                        placeholder="Tag"
+                        defaultValue={field[index]}
+                        {...register(`tagList.${index}.tag`, {
+                          required: 'The field must be filled in',
+                          validate: (value) => !value.match(/^[ ]+$/) || 'The field should not contain only spaces',
+                        })}
+                      />
+                      {fields.length !== 1 ? (
+                        <Button
+                          htmlType="button"
+                          type="primary"
+                          danger
+                          ghost
+                          className="btn-tag"
+                          onClick={() => remove(index)}
+                        >
+                          Delete
+                        </Button>
+                      ) : null}
+                    </li>
+                    <div className="form__error">
+                      {errors?.tagList?.[index] && (
+                        <p className="form__error--tags">{errors?.tagList?.[index]?.tag.message}</p>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </ul>
+            <Button
+              htmlType="button"
+              type="primary"
+              ghost
+              className="btn-tag form__add-tag"
+              onClick={() => append({ tag: '' })}
+            >
+              Add tag
+            </Button>
+          </div>
         </label>
         <div className="form__error">{errors?.tagList && <p>{errors?.tagList?.message}</p>}</div>
         <Button htmlType="submit" className="form__btn new-article__btn" size="large" type="primary">

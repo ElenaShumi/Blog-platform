@@ -14,7 +14,6 @@ const articlesSlice = createSlice({
     favoriteArticles: [],
     singleArticle: null,
     articlesCount: null,
-    page: 1,
     status: null,
     error: null,
   },
@@ -22,10 +21,6 @@ const articlesSlice = createSlice({
   reducers: (create) => ({
     stopLoading: create.reducer((state) => {
       state.status = 'resolved'
-    }),
-
-    editPages: create.reducer((state, page) => {
-      state.page = page
     }),
 
     fetchArticles: create.asyncThunk(
@@ -80,7 +75,6 @@ const articlesSlice = createSlice({
     fetchCreateArticle: create.asyncThunk(
       async function (info, { rejectWithValue }) {
         try {
-          console.log(info)
           return await BlogService.createAnArticle(info)
         } catch (error) {
           return rejectWithValue(error.message)
@@ -159,7 +153,6 @@ const articlesSlice = createSlice({
     selectorStatus: (state) => state.status,
     selectorArticlesCount: (state) => state.articlesCount,
     selectorFavoriteArticles: (state) => state.favoriteArticles,
-    selectorPage: (state) => state.page,
   },
 })
 
@@ -180,6 +173,5 @@ export const {
   selectorArticlesCount,
   selectorSingleArticle,
   selectorFavoriteArticles,
-  selectorPage,
 } = articlesSlice.selectors
 export default articlesSlice.reducer

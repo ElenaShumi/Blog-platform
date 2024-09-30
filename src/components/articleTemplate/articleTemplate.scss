@@ -21,6 +21,7 @@
         .input-tag {
            margin: 0;
            width: 30%;
+           flex-grow: 1;
         }
 
         .btn-tag {
@@ -35,6 +36,16 @@
         .form__error--tags {
             margin-top: 0;
             margin-bottom: 5px;
+        }
+
+        .form__tags {
+            display: flex;
+            align-items: flex-end;
+            gap: 17px;
+
+            .form__add-tag {
+                margin-bottom: 5px;
+            }
         }
     }
 }

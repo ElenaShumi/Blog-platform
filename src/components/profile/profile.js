@@ -1,18 +1,22 @@
 import { Button } from 'antd'
 import './profile.scss'
-import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
-import { fetchUpdateUser, selectorToken, selectorUsername, selectorEmail } from '../../store/authenticationSlice'
+import {
+  fetchUpdateUser,
+  selectorToken,
+  selectorUsername,
+  selectorEmail,
+  selectorErrors,
+} from '../../store/authenticationSlice'
 
 const Profile = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const location = useLocation()
   const token = useSelector(selectorToken)
   const userName = useSelector(selectorUsername)
   const userEmail = useSelector(selectorEmail)
+  const errorsAuthen = useSelector(selectorErrors)
 
   const {
     register,
@@ -34,7 +38,6 @@ const Profile = () => {
     }
 
     dispatch(fetchUpdateUser({ token, ...user }))
-    navigate('/articles', { state: { from: location } })
   }
 
   return (
@@ -53,7 +56,10 @@ const Profile = () => {
             />
           </label>
           <br />
-          <div className="form__error">{errors?.username && <p>{errors?.username?.message}</p>}</div>
+          <div className="form__error">
+            {(errors?.username && <p>{errors?.username?.message}</p>) ||
+              (errorsAuthen?.username && <p>Username {errorsAuthen?.username}</p>)}
+          </div>
           <label className="form__label">
             Email address
             <br />
@@ -72,7 +78,10 @@ const Profile = () => {
             />
           </label>
           <br />
-          <div className="form__error">{errors?.email && <p>{errors?.email?.message}</p>}</div>
+          <div className="form__error">
+            {(errors?.email && <p>{errors?.email?.message}</p>) ||
+              (errorsAuthen?.email && <p>Email {errorsAuthen?.email}</p>)}
+          </div>
           <label className="form__label">
             New password
             <br />
